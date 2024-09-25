@@ -4,3 +4,19 @@ const computerPlay = function() {
   return choices[randomIndex];
 };
 
+const playRound = function(playerSelection, computerSelection) {
+  const playerChoice = playerSelection.toLowerCase();
+  const computerChoice = computerSelection.toLowerCase();
+
+  if (playerChoice === computerChoice) {
+    return "It's a tie!";
+  } else if (
+    (playerChoice === "rock" && computerChoice === "scissors") ||
+    (playerChoice === "scissors" && computerChoice === "paper") ||
+    (playerChoice === "paper" && computerChoice === "rock")
+  ) {
+    return `You Win! ${playerSelection} beats ${computerSelection}`;
+  } else {
+    return `You Lose! ${computerSelection} beats ${playerSelection}`;
+  }
+};
