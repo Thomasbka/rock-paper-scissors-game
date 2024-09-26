@@ -1,6 +1,7 @@
 alert(`
 Welcome to the Rock, Paper, Scissors game!
 
+- Open the console in the Spection Tools of your Browser. CMD + OPT +C (Mac) or CTRL + SHIFT + C (Windows) or Right Click and click Inspect.
 - Here you get to play against your own computer in a match best of 5.
 - In order to play this game you will need to open your inspecter window and use the console tab.
 - After clicking 'OK' you can type your choice inside the box.
@@ -9,86 +10,83 @@ Welcome to the Rock, Paper, Scissors game!
 May the best player win!
 `);
 
-const computerPlay = function() {
-  const choices = ["Rock", "Paper", "Scissors"];
-  const randomIndex = Math.floor(Math.random() * choices.length);
-  return choices[randomIndex];
+function computerPlay() {
+    const choices = ["rock", "paper", "scissors"];
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex];
+};
+
+function getPlayerSelection() {
+    let validInput;
+    let playerSelection = "";
+    while (!validInput) {
+        playerSelection = prompt("Enter Rock, Paper, or Scissors:").toLowerCase();
+        if (["rock", "paper", "scissors"].includes(playerSelection)) {
+            validInput = true;
+        } else {
+            alert("Invalid input! Please enter Rock, Paper, or Scissors.");
+        }
+    }
+    return playerSelection;
 };
 
 function playRound(playerSelection, computerSelection) {
-  const playerChoice = playerSelection.toLowerCase();
-  const computerChoice = computerSelection.toLowerCase();
-
-  if (playerChoice === computerChoice) {
-    return "It's a tie!";
-  } else if (
-    (playerChoice === "rock" && computerChoice === "scissors") ||
-    (playerChoice === "scissors" && computerChoice === "paper") ||
-    (playerChoice === "paper" && computerChoice === "rock")
-  ) {
-    return `You Win! ${playerSelection} beats ${computerSelection}`;
-  } else {
-    return `You Lose! ${computerSelection} beats ${playerSelection}`;
-  }
+    const playerUpper = playerSelection.toUpperCase();
+    const computerUpper = computerSelection.toUpperCase();
+    if (playerSelection === computerSelection) {
+        return  `It's a tie! ${playerUpper} = ${computerUpper}`; 
+    } else if (
+        (playerSelection === "rock" && computerSelection === "scissors") ||
+        (playerSelection === "scissors" && computerSelection === "paper") ||
+        (playerSelection === "paper" && computerSelection === "rock")
+    ) {
+        return `You Win! ${playerUpper} beats ${computerUpper}`;
+    } else {
+        return `You Lose! ${computerUpper} beats ${playerUpper}`;  
+    }
 };
 
-const game = function() {
-  console.clear();
-
-  let playerScore = 0;
-  let computerScore = 0;
-  const validChoices = ["rock", "paper", "scissors"];
-
-  for (let i = 0; i < 5; i++) {
-    let playerSelection = prompt("Please choose either Rock, Paper or Scissors:").toLowerCase();
-
-    while (!validChoices.includes(playerSelection)) {
-      playerSelection = prompt("Your choice is invalid. Please choose either Rock, Paper or Scissors:").toLowerCase();
+function game() {
+    let playerWins = 0;
+    let computerWins = 0;
+    let round = 0;
+    while (round < 5 && playerWins < 3 && computerWins < 3) {
+        const playerSelection = getPlayerSelection();
+        const computerSelection = computerPlay(); 
+        const result = playRound(playerSelection, computerSelection); 
+        console.log(`Round ${round + 1}:`);
+        console.log(result);
+        if (result.includes("You Win!")) {
+            playerWins++;
+        } else if (result.includes("You Lose!")) {
+            computerWins++;
+        }
+        console.log(`Score: Player ${playerWins}, Computer ${computerWins}`);
+        round++; 
     }
-
-    const computerSelection = computerPlay();
-    const result = playRound(playerSelection, computerSelection);
-
-    console.log(result);
-
-    if (result.startsWith("You Win")) {
-      playerScore++;
-    } else if (result.startsWith("You Lose")) {
-      computerScore++;
+    if (playerWins === 3) {
+        console.log("Congratulations! You won the game.");
+        playAgain();
+    } else if (computerWins === 3) {
+        console.log("Sorry, the computer won the game.");
+        playAgain();
+    } else {
+        console.log("Game over! Neither player reached 3 wins after 5 rounds.");
+        playAgain();
     }
-
-    console.log(`Round ${i + 1}: Player - ${playerScore}, Computer - ${computerScore}`);
-
-    if (i === 3) {
-      console.log(`LAST ROUND! Let's see if you can beat the computer!`);
-    }
-  }
-
-  playerResult(playerScore, computerScore);
 };
 
-const playerResult = function(playerScore, computerScore) {
-  if (playerScore > computerScore) {
-    alert("Congratulations, you won the game!");
-    console.log("You won the game!");
-  } else if (computerScore > playerScore) {
-    alert("Sorry, you lost the game.");
-    console.log("You lost the game.");
-  } else {
-    alert("It's a tie game!");
-    console.log("The game is a tie!");
-  }
-
-  playAgain();
-};
-
-const playAgain = function() {
-  let response = prompt("Do you want to play again? (yes/no)").toLowerCase();
-  if (response === "yes") {
-    game();
-  } else {
-    alert("Thanks for playing! See you next time.");
-  }
+function playAgain() {
+    let response = prompt("Do you want to play again? (yes/no)").toLowerCase();
+    if (response === "yes") {
+        console.clear();
+        game();
+    } else {
+        alert("Thanks for playing! See you next time.");
+    }
 };
 
 game();
+
+
+
