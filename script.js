@@ -49,7 +49,6 @@ const game = function() {
     const computerSelection = computerPlay();
     const result = playRound(playerSelection, computerSelection);
 
-    alert(result);
     console.log(result);
 
     if (result.startsWith("You Win")) {
@@ -58,10 +57,10 @@ const game = function() {
       computerScore++;
     }
 
-    alert(`Round ${i + 1}: Player - ${playerScore}, Computer - ${computerScore}`);
+    console.log(`Round ${i + 1}: Player - ${playerScore}, Computer - ${computerScore}`);
 
     if (i === 3) {
-      alert(`LAST ROUND! Let's see if you can beat the computer!`);
+      console.log(`LAST ROUND! Let's see if you can beat the computer!`);
     }
   }
 
