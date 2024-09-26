@@ -34,7 +34,7 @@ const playRound = function(playerSelection, computerSelection) {
 
 const game = function() {
   console.clear();
-  
+
   let playerScore = 0;
   let computerScore = 0;
   const validChoices = ["rock", "paper", "scissors"];
@@ -49,6 +49,7 @@ const game = function() {
     const computerSelection = computerPlay();
     const result = playRound(playerSelection, computerSelection);
 
+    alert(result);
     console.log(result);
 
     if (result.startsWith("You Win")) {
@@ -57,16 +58,14 @@ const game = function() {
       computerScore++;
     }
 
-    console.log(`Round ${i + 1}: Player - ${playerScore}, Computer - ${computerScore}`);
+    alert(`Round ${i + 1}: Player - ${playerScore}, Computer - ${computerScore}`);
 
     if (i === 3) {
-      console.log(`LAST ROUND! Let's see if you can beat the computer!`);
+      alert(`LAST ROUND! Let's see if you can beat the computer!`);
     }
   }
 
-  setTimeout(function() {
-    playerResult(playerScore, computerScore);
-  }, 100);
+  playerResult(playerScore, computerScore);
 };
 
 const playerResult = function(playerScore, computerScore) {
@@ -93,4 +92,4 @@ const playAgain = function() {
   }
 };
 
-setTimeout(game, 100);
+game();
