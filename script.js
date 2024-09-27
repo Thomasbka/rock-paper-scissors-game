@@ -49,33 +49,31 @@ function playRound(playerSelection, computerSelection) {
 async function game() {
   let playerWins = 0;
   let computerWins = 0;
-  let round = 0;
-  while (round < 5 && playerWins < 3 && computerWins < 3) {
-    const playerSelection = getPlayerSelection();
+  for (let round = 0; round < 5; round++) {
+    const playerSelection = getPlayerSelection(); 
     const computerSelection = computerPlay(); 
     const result = playRound(playerSelection, computerSelection);
     console.log(`Round ${round + 1}:`);
     console.log(result);
     if (result.includes("You Win!")) {
-        playerWins++;
+      playerWins++;
     } else if (result.includes("You Lose!")) {
-        computerWins++;
+      computerWins++;
     }
     console.log(`Score: Player ${playerWins}, Computer ${computerWins}`);
-    round++; 
+    if (playerWins === 3 || computerWins === 3) {
+      break; 
+    }
   }
-
   if (playerWins === 3) {
     console.log("Congratulations! You won the game.");
-    playAgain();
   } else if (computerWins === 3) {
     console.log("Sorry, the computer won the game.");
-    playAgain();
   } else {
     console.log("Game over! Neither player reached 3 wins after 5 rounds.");
-    playAgain();
   }
-};
+  playAgain();
+}
 
 function playAgain() {
   let response = prompt("Do you want to play again? (yes/no)").toLowerCase();
