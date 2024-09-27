@@ -86,7 +86,8 @@ function playAgain() {
     }
 };
 
-game();
-
+setTimeout(() => {
+    game();
+}, 100);
 
 
