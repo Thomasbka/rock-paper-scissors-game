@@ -46,7 +46,7 @@ function playRound(playerSelection, computerSelection) {
   }
 };
 
-function game() {
+async function game() {
   let playerWins = 0;
   let computerWins = 0;
   for (let round = 0; round < 5; round++) {
