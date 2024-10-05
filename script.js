@@ -10,8 +10,18 @@ Welcome to the Rock, Paper, Scissors game!
 May the best player win!
 `);
 
+const choices = ["rock", "paper", "scissors"];
+
+const isPlayerSelectionNull = (playerSelection) => {
+  if (playerSelection === null) {
+    alert("Game ended.");
+    return true;
+  } else {
+    return false;
+  }
+};
+
 function computerPlay() {
-  const choices = ["rock", "paper", "scissors"];
   const randomIndex = Math.floor(Math.random() * choices.length);
   return choices[randomIndex];
 };
@@ -20,29 +30,34 @@ function getPlayerSelection() {
   let validInput;
   let playerSelection = "";
   while (!validInput) {
-    playerSelection = prompt("Enter Rock, Paper, or Scissors:").toLowerCase();
-    if (["rock", "paper", "scissors"].includes(playerSelection)) {
+    playerSelection = prompt("Enter Rock, Paper, or Scissors:")
+    if (isPlayerSelectionNull(playerSelection)) {
+      return null;
+    }
+    playerSelection = playerSelection.toLowerCase().trim();
+    if (choices.includes(playerSelection)) {
       validInput = true;
     } else {
       alert("Invalid input! Please enter Rock, Paper, or Scissors.");
     }
-  }
+  };
   return playerSelection;
 };
 
 function playRound(playerSelection, computerSelection) {
-  const playerUpper = playerSelection.toUpperCase();
-  const computerUpper = computerSelection.toUpperCase();
+  if (isPlayerSelectionNull(playerSelection)) {
+    return null;
+  };
   if (playerSelection === computerSelection) {
-    return  `It's a tie! ${playerUpper} = ${computerUpper}`; 
+    return  `It's a tie! ${playerSelection.toUpperCase()} = ${computerSelection.toUpperCase()}`; 
   } else if (
     (playerSelection === "rock" && computerSelection === "scissors") ||
     (playerSelection === "scissors" && computerSelection === "paper") ||
     (playerSelection === "paper" && computerSelection === "rock")
   ) {
-    return `You Win! ${playerUpper} beats ${computerUpper}`;
+    return `You Win! ${playerSelection.toUpperCase()} beats ${computerSelection.toUpperCase()}`;
   } else {
-    return `You Lose! ${computerUpper} beats ${playerUpper}`;  
+    return `You Lose! ${computerSelection.toUpperCase()} beats ${playerSelection.toUpperCase()}`;  
   }
 };
 
@@ -51,8 +66,15 @@ function game() {
   let computerWins = 0;
   for (let round = 0; round < 5; round++) {
     const playerSelection = getPlayerSelection(); 
+    if (playerSelection === null) {
+      console.log("Game was CANCELED by player!");
+      return;
+    };
     const computerSelection = computerPlay(); 
     const result = playRound(playerSelection, computerSelection);
+    if (result === null) {
+      return;
+    };
     console.log(`Round ${round + 1}:`);
     console.log(result);
     if (result.includes("You Win!")) {
@@ -64,7 +86,7 @@ function game() {
     if (playerWins === 3 || computerWins === 3) {
       break; 
     }
-  }
+  };
   if (playerWins === 3) {
     console.log("Congratulations! You won the game.");
   } else if (computerWins === 3) {
@@ -73,16 +95,16 @@ function game() {
     console.log("Game over! Neither player reached 3 wins after 5 rounds.");
   }
   playAgain();
-}
+};
 
 function playAgain() {
-  let response = prompt("Do you want to play again? (yes/no)").toLowerCase();
-  if (response === "yes") {
+  let response = confirm("Do you want to play again?");
+  if (response) {
     console.clear();
     game();
   } else {
     alert("Thanks for playing! See you next time.");
-  }
+  };
 };
 
 setTimeout(() => {
